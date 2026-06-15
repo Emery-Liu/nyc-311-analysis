@@ -9,7 +9,7 @@ HOUR_IN_SEC = 3600
 # Parameter: ori_dataframe (pd.DataFrame)
 # Return: new pd.DataFrame with addtional columns
 # Note: ori_dataframe must contain created_date and closed_date columns
-def add_resolution_col(ori_dataframe):
+def add_resolution_col(ori_dataframe: pd.DataFrame) -> pd.DataFrame:
 
     df = ori_dataframe.copy()
 

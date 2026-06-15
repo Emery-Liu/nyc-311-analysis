@@ -21,7 +21,7 @@ from load_data import (
 )
 
 
-def main():
+def main() -> None:
     # This demo shows the core analysis: summary stats and three plots.
     # For additional analyses (e.g., resolution time by complaint type,
     # top complaints per borough, agency complaint counts, histograms, heatmaps),

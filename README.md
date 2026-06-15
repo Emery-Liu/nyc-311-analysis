@@ -5,7 +5,6 @@
 4. Run: python src/main.py
 
 
-
 # NYC 311 Service Requests Analysis
 
 This project explores NYC 311 service request data using Python, Pandas, NumPy, and Matplotlib.
@@ -21,7 +20,7 @@ The goal is to understand:
 The analysis is based on a sample of 50,000 NYC 311 service requests collected from NYC Open Data.
 
 ## Project Structure
-
+```
 data/
 ├── raw/          # Original NYC Open Data files
 ├── processed/    # Cleaned datasets
@@ -37,7 +36,7 @@ src/
 
 figures/
 reports/
-
+```
 ## Data Source
 
 NYC Open Data: 311 Service Requests from 2020 to Present

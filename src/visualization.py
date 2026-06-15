@@ -1,9 +1,10 @@
+import pandas as pd
 import matplotlib.pyplot as plt
 
 # Purpose: Draws a horizontal bar chart of the top complaint types.
 # Parameters: complaints (pd.Series) – indexed by complaint type, values = counts.
 # Output: Horizontal bar chart 
-def plot_top_complaints(complaints):
+def plot_top_complaints(complaints: pd.Series) -> None:
 
     plt.figure(figsize=(10,6))
 
@@ -21,7 +22,7 @@ def plot_top_complaints(complaints):
 # Purpose: Draws a pie chart of complaint distribution by borough.
 # Parameters: borough_counts (pd.Series) – indexed by borough.
 # Output: Pie chart with percentage labels.
-def plot_borough_distribution(borough_counts):
+def plot_borough_distribution(borough_counts: pd.Series) -> None:
 
     plt.figure(figsize=(8,8))
 
@@ -39,7 +40,7 @@ def plot_borough_distribution(borough_counts):
 # Purpose: Draws a horizontal bar chart of average resolution time per agency.
 # Parameters: agency_times (pd.Series) – indexed by agency
 # Output: Bar chart
-def plot_agency_resolution(agency_times):
+def plot_agency_resolution(agency_times: pd.Series) -> None:
 
     plt.figure(figsize=(10,6))
 
@@ -61,7 +62,7 @@ def plot_agency_resolution(agency_times):
 # Purpose: Plots a histogram of resolution times.
 # Parameters: hours (pd.Series) – values in hours.
 # Output: Histogram with 50 bins
-def plot_resolution_histogram(hours):
+def plot_resolution_histogram(hours: pd.Series) -> None:
 
     plt.figure(figsize=(10,6))
 
@@ -85,7 +86,7 @@ def plot_resolution_histogram(hours):
 # Purpose: Creates a 2D histogram (heatmap) of complaint density using longitude and latitude.
 # Parameters: DataFrame df with longitude and latitude columns.
 # Output: a hist2d plot
-def plot_heatmap(df):
+def plot_heatmap(df: pd.DataFrame) -> None:
 
     plt.figure(figsize=(10,8))
 
