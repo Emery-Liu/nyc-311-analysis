@@ -1,9 +1,8 @@
 # How to use
-1. Download a NYC 311 CSV file.
-2. Place it in data/raw/.
-3. Rename it to: nyc_311_2025_sample.csv
-4. Run: python src/main.py
-
+1. Ensure you have the required dependencies installed.
+2. Check your current directory by pwd, cd to the folder root directory, then run
+    uvicorn app:app --reload
+3. Access http://127.0.0.1:8000/docs to interact with SwaggerUI
 
 # NYC 311 Service Requests Analysis
 
@@ -33,9 +32,13 @@ notebooks/
 
 src/
 ├── analysis.py
+├── cleaning.py
+├── visualization.py
+├── model.py
+
+app.py
 
 figures/
-reports/
 ```
 ## Data Source
 
