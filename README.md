@@ -50,7 +50,7 @@ https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2020-to-
 This project uses a filtered sample dataset:
 
 'data/raw/nyc_311_2025_sample.csv'
-##=================================================================================================
+
 # What I Learned
 - **Web API Development**: Learned how to build RESTful APIs using **FastAPI** and serve them locally with **Uvicorn**.
 - **Data Validation & Schema**: Learned to use **Pydantic's `BaseModel`** to define strict response models, enabling automatic data validation and Swagger UI documentation generation.
