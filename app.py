@@ -4,7 +4,7 @@ import pandas as pd
 import uvicorn
 import os # by AI
 from fastapi.staticfiles import StaticFiles
-
+from src.mapping_config import FIELD_MAPPING
 from src.cleaning import add_resolution_col
 from src.analysis import (resolution_summary, 
                           top10_complaints, 
@@ -38,6 +38,7 @@ async def upload_csv(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="Please upload a CSV file.")
     try:
         current_df = pd.read_csv(file.file)
+        current_df.rename(columns=FIELD_MAPPING, inplace=True)
         current_df = add_resolution_col(current_df)
         return {"message": "File uploaded and processed successfully."}
     except Exception as e:
