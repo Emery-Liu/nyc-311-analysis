@@ -4,9 +4,9 @@ Access: https://nyc-311-analysis.onrender.com/docs
 
 ## Local
 1. Ensure you have the required dependencies installed.
-   pip install -r requirements.txt
-2. Check your current directory by pwd, cd to the folder root directory, then run
-   uvicorn app:app --reload
+   "pip install -r requirements.txt"
+2. Check your current directory by pwd, cd to the folder root directory.
+   run "uvicorn app:app --reload"
 3. Access http://127.0.0.1:8000/docs to interact with SwaggerUI
 
 # NYC 311 Service Requests Analysis

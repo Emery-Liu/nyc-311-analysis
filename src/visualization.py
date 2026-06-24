@@ -5,6 +5,14 @@ matplotlib.use('Agg')
 # =========================
 import matplotlib.pyplot as plt
 
+from src.analysis import (resolution_summary, 
+                          top10_complaints, 
+                          borough_counts, 
+                          agency_resolution_time,
+                          complaint_resolution_time,
+                          top_complaints_by_borough,
+                          agency_complaint_counts)
+
 # Purpose: Draws a horizontal bar chart of the top complaint types.
 # Parameters: complaints (pd.Series) – indexed by complaint type, values = counts.
 # Output: Horizontal bar chart 
@@ -134,3 +142,15 @@ def plot_heatmap(df: pd.DataFrame) -> None:
     plt.tight_layout()
     plt.savefig("figures/request_heatmap.png")
     plt.close()
+
+# Purpose: gathering all draw-image functions
+# parameter: DataFrame df
+# Ouput: seven images
+def plot_images(df):
+    plot_top_complaints(top10_complaints(df))
+    plot_borough_distribution(borough_counts(df))
+    plot_agency_resolution(agency_resolution_time(df))
+    plot_resolution_histogram(complaint_resolution_time(df))
+    plot_agency_complaint_counts(agency_complaint_counts(df))
+    plot_top_complaints_by_borough(top_complaints_by_borough(df))
+    plot_heatmap(df)

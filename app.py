@@ -6,20 +6,8 @@ import os # by AI
 from fastapi.staticfiles import StaticFiles
 from src.mapping_config import FIELD_MAPPING
 from src.cleaning import add_resolution_col
-from src.analysis import (resolution_summary, 
-                          top10_complaints, 
-                          borough_counts, 
-                          agency_resolution_time,
-                          complaint_resolution_time,
-                          top_complaints_by_borough,
-                          agency_complaint_counts)
-from src.visualization import (plot_top_complaints, 
-                               plot_borough_distribution, 
-                               plot_agency_resolution,
-                               plot_resolution_histogram,
-                               plot_agency_complaint_counts,
-                               plot_top_complaints_by_borough,
-                               plot_heatmap)
+from src.analysis import resolution_summary
+from src.visualization import plot_images
 from src.model import SummaryResponse
 
 
@@ -49,6 +37,7 @@ async def upload_csv(file: UploadFile = File(...)):
 def get_summary():
     if current_df is None:
         raise HTTPException(status_code=400, detail="No data uploaded. Please upload a CSV first.")
+    print("The following are the data summaries of resolution time(hours)")
     return resolution_summary(current_df)
 
 
@@ -57,13 +46,7 @@ def generate_plots():
     if current_df is None:
         raise HTTPException(status_code=400, detail="No data uploaded. Please upload a CSV first.")
     try:
-        plot_top_complaints(top10_complaints(current_df))
-        plot_borough_distribution(borough_counts(current_df))
-        plot_agency_resolution(agency_resolution_time(current_df))
-        plot_resolution_histogram(complaint_resolution_time(current_df))
-        plot_agency_complaint_counts(agency_complaint_counts(current_df))
-        plot_top_complaints_by_borough(top_complaints_by_borough(current_df))
-        plot_heatmap(current_df)
+        plot_images(current_df)
         
         base_url = "https://nyc-311-analysis.onrender.com/static"
 
@@ -81,10 +64,13 @@ def generate_plots():
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating plots: {str(e)}")
-    
+
+
+'''
 if __name__ == "__main__":
     uvicorn.run(
         app=app,
         host="127.0.0.1",
         port=8000
     )
+'''
