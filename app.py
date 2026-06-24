@@ -2,6 +2,7 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 
 import pandas as pd
 import uvicorn
+import os # by AI
 
 from src.cleaning import add_resolution_col
 from src.analysis import (resolution_summary, 
@@ -22,6 +23,7 @@ from src.model import SummaryResponse
 
 
 app = FastAPI()
+os.makedirs("figures", exist_ok=True) # by AI
 current_df = None
 
 
