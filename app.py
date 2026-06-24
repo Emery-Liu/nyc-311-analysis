@@ -59,18 +59,17 @@ def generate_plots():
                 f"{base_url}/agency_resolution_time.png",
                 f"{base_url}/agency_complaint_counts.png",     
                 f"{base_url}/top_complaints_by_borough.png",
-                f"{base_url}/request_heatmap.png"
+                f"{base_url}/request_heatmap.html"
             ]
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating plots: {str(e)}")
 
 
-'''
+
 if __name__ == "__main__":
     uvicorn.run(
         app=app,
         host="127.0.0.1",
         port=8000
     )
-'''
