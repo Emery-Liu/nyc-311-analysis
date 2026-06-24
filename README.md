@@ -49,7 +49,7 @@ NYC Open Data: 311 Service Requests from 2020 to Present
 Dataset page:
 https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2020-to-Present/erm2-nwe9
 
-This project uses a filtered sample dataset: 'data/raw/nyc_311_2025_sample.csv'
+This project uses a filtered sample dataset: 'data/raw/311_Service_Requests_20251231.csv'
 
 # What I Learned
 - **Web API Development**: Learned how to build RESTful APIs using **FastAPI** and serve them locally with **Uvicorn**.
@@ -64,6 +64,6 @@ This project uses a filtered sample dataset: 'data/raw/nyc_311_2025_sample.csv'
 # AI Assistance & Acknowledgements
 This project leverages Advanced AI tools (like Codex/Cursor) to accelerate development, improve code quality, and troubleshoot infrastructure. Below is a breakdown of how AI was utilized:
 
-**Infrastructure & CI/CD** Troubleshooting Cloud Deployment | Resolved Render runtime crashes (`Exited with status 1`) by identifying needed dependencies
-**API Architecture** Feature Enhancement & DX | Guided the integration of FastAPI's `StaticFiles` mounting to turn server-side generated plots into accessible web URLs for end-users.
-**Code Refactoring** Error Handling | Implemented defensive programming patterns, such as utilizing `os.makedirs(..., exist_ok=True)` to prevent silent dynamic folder crashes in containerized environments.
+- **Infrastructure & CI/CD** Troubleshooting Cloud Deployment | Resolved Render runtime crashes (`Exited with status 1`) by identifying needed dependencies
+- **API Architecture** Feature Enhancement & DX | Guided the integration of FastAPI's `StaticFiles` mounting to turn server-side generated plots into accessible web URLs for end-users.
+- **Code Refactoring** Error Handling | Implemented defensive programming patterns, such as utilizing `os.makedirs(..., exist_ok=True)` to prevent silent dynamic folder crashes in containerized environments.
