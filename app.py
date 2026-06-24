@@ -3,6 +3,7 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 import pandas as pd
 import uvicorn
 import os # by AI
+from fastapi.staticfiles import StaticFiles
 
 from src.cleaning import add_resolution_col
 from src.analysis import (resolution_summary, 
@@ -23,7 +24,10 @@ from src.model import SummaryResponse
 
 
 app = FastAPI()
+
 os.makedirs("figures", exist_ok=True) # by AI
+app.mount("/static", StaticFiles(directory="figures"), name="static") #by AI
+
 current_df = None
 
 
@@ -60,16 +64,18 @@ def generate_plots():
         plot_top_complaints_by_borough(top_complaints_by_borough(current_df))
         plot_heatmap(current_df)
         
+        base_url = "https://nyc-311-analysis.onrender.com/static"
+
         return {
             "message": "Plots generated and saved successfully.",
             "saved_files": [
-                "figures/top_complaints.png",
-                "figures/borough_distribution.png",
-                "figures/avg_agency_resolution_time.png",
-                "figures/agency_resolution_time.png",
-                "figures/agency_complaint_counts.png",     
-                "figures/top_complaints_by_borough.png",
-                "figures/request_heatmap.png"
+                f"{base_url}/top_complaints.png",
+                f"{base_url}/borough_distribution.png",
+                f"{base_url}/avg_agency_resolution_time.png",
+                f"{base_url}/agency_resolution_time.png",
+                f"{base_url}/agency_complaint_counts.png",     
+                f"{base_url}/top_complaints_by_borough.png",
+                f"{base_url}/request_heatmap.png"
             ]
         }
     except Exception as e:
