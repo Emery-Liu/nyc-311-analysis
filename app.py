@@ -2,7 +2,6 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 
 import pandas as pd
 import uvicorn
-import sqlite3
 from fastapi.staticfiles import StaticFiles
 
 from src.mapping_config import FIELD_MAPPING
@@ -10,10 +9,10 @@ from src.cleaning import add_resolution_col
 from src.analysis import resolution_summary
 from src.visualization import plot_images
 from src.model import SummaryResponse
-from src.database import get_filename_by_id
+from src.database import get_filename_by_id, insert_upload, init_database
 
 app = FastAPI()
-
+init_database()
 app.mount("/static", StaticFiles(directory="figures"), name="static") #AI gen
 
 
@@ -27,19 +26,7 @@ async def upload_csv(file: UploadFile = File(...)):
         with open(file_path, "wb") as f:
             f.write(file.file.read())
         # import to SQLite
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
-        cursor.execute(
-            """
-            INSERT INTO uploads
-            (filename, upload_time)
-            VALUES (?, datetime('now'))
-            """,
-            (file.filename,)
-        )
-        conn.commit()
-        file_id = cursor.lastrowid
-        conn.close()
+        file_id = insert_upload(file.filename)
         # return file_id
         return {"message": "File uploaded and processed successfully.",
                 "file_id": file_id}

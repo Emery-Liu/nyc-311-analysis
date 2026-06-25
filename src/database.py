@@ -14,3 +14,37 @@ def get_filename_by_id(file_id):
     row = cursor.fetchone()
     conn.close()
     return row
+
+def insert_upload(filename):
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        INSERT INTO uploads
+        (filename, upload_time)
+        VALUES (?, datetime('now'))
+        """,
+        (filename,)
+    )
+    conn.commit()
+    file_id = cursor.lastrowid
+    conn.close()
+    return file_id
+
+
+def init_database():
+    conn = sqlite3.connect("database.db")
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS uploads (
+            id INTEGER PRIMARY KEY,
+            filename TEXT NOT NULL,
+            upload_time TEXT NOT NULL
+        )
+    """)
+
+    conn.commit()
+    conn.close()

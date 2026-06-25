@@ -43,7 +43,6 @@ src/
 
 app.py
 database.db
-init_db.py
 requirements.txt
 
 figures/

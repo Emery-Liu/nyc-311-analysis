@@ -7,8 +7,7 @@ from folium.plugins import HeatMap
 # =========================
 import matplotlib.pyplot as plt
 
-from src.analysis import (resolution_summary, 
-                          top10_complaints, 
+from src.analysis import (top10_complaints, 
                           borough_counts, 
                           agency_resolution_time,
                           complaint_resolution_time,
