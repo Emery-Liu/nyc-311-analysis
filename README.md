@@ -38,8 +38,13 @@ src/
 ├── visualization.py
 ├── model.py
 ├── mapping_config.py
+├── database.py
+
 
 app.py
+database.db
+init_db.py
+requirements.txt
 
 figures/
 ```

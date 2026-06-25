@@ -2,51 +2,87 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 
 import pandas as pd
 import uvicorn
-import os # by AI
+import sqlite3
 from fastapi.staticfiles import StaticFiles
+
 from src.mapping_config import FIELD_MAPPING
 from src.cleaning import add_resolution_col
 from src.analysis import resolution_summary
 from src.visualization import plot_images
 from src.model import SummaryResponse
-
+from src.database import get_filename_by_id
 
 app = FastAPI()
 
-os.makedirs("figures", exist_ok=True) # by AI
-app.mount("/static", StaticFiles(directory="figures"), name="static") #by AI
-
-current_df = None
+app.mount("/static", StaticFiles(directory="figures"), name="static") #AI gen
 
 
 @app.post("/upload-csv")
 async def upload_csv(file: UploadFile = File(...)):
-    global current_df
     if not file.filename.endswith('.csv'):
         raise HTTPException(status_code=400, detail="Please upload a CSV file.")
     try:
-        current_df = pd.read_csv(file.file)
-        current_df.rename(columns=FIELD_MAPPING, inplace=True)
-        current_df = add_resolution_col(current_df)
-        return {"message": "File uploaded and processed successfully."}
+        # save csv to uploads
+        file_path = f"uploads/{file.filename}"
+        with open(file_path, "wb") as f:
+            f.write(file.file.read())
+        # import to SQLite
+        conn = sqlite3.connect("database.db")
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            INSERT INTO uploads
+            (filename, upload_time)
+            VALUES (?, datetime('now'))
+            """,
+            (file.filename,)
+        )
+        conn.commit()
+        file_id = cursor.lastrowid
+        conn.close()
+        # return file_id
+        return {"message": "File uploaded and processed successfully.",
+                "file_id": file_id}
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error processing file: {str(e)}")
 
 
-@app.get("/summary", response_model=SummaryResponse)
-def get_summary():
-    if current_df is None:
-        raise HTTPException(status_code=400, detail="No data uploaded. Please upload a CSV first.")
-    print("The following are the data summaries of resolution time(hours)")
-    return resolution_summary(current_df)
+@app.get("/summary/{file_id}", response_model=SummaryResponse)
+def get_summary(file_id: int):
+    row = get_filename_by_id(file_id)
+    if row is None:
+        raise HTTPException(
+            status_code = 404,
+            detail = "File not found"
+        )
+    filename  = row[0]
+    
+    df = pd.read_csv(f"uploads/{filename}")
+
+    df.rename(
+            columns=FIELD_MAPPING,
+            inplace=True
+        )
+    df = add_resolution_col(df)
+
+    return resolution_summary(df)
 
 
-@app.post("/generate-plots")
-def generate_plots():
-    if current_df is None:
-        raise HTTPException(status_code=400, detail="No data uploaded. Please upload a CSV first.")
+@app.post("/generate-plots/{file_id}")
+def generate_plots(file_id: int):
     try:
-        plot_images(current_df)
+        row = get_filename_by_id(file_id)
+
+        if row is None:
+            raise HTTPException(
+                status_code=404,
+                detail="File not found."
+            )
+        filename = row[0]
+        df = pd.read_csv(f"uploads/{filename}")
+        df.rename(columns=FIELD_MAPPING,inplace=True)
+        df = add_resolution_col(df)
+        plot_images(df)
         
         base_url = "https://nyc-311-analysis.onrender.com/static"
 
